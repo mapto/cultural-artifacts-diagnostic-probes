@@ -1,0 +1,142 @@
+\documentclass[
+  twocolumn,
+]{ceurart}
+
+\sloppy
+
+\usepackage{listings}
+\lstset{breaklines=true}
+
+\begin{document}
+
+\copyrightyear{2026}
+\copyrightclause{Copyright for this paper by its authors.
+  Use permitted under Creative Commons License Attribution 4.0
+  International (CC BY 4.0).}
+
+\conference{RA2I Workshop at AVI 2026}
+
+\title{Cultural Artifacts as Diagnostic Probes: A Framework for Evaluating AI Architectural Commitments}
+
+\author[1]{Bernardino Sassoli de Bianchi}[%
+  orcid=0000-0003-0667-2707,
+  email=bernardino.sassoli@unimi.it,
+]
+\address[1]{Universit\`a degli Studi di Milano, Milan, Italy}
+
+\author[2]{Martin Ruskov}[%
+  email=martin.ruskov@unige.it,
+]
+\address[2]{Universit\`a degli Studi di Genova, Genoa, Italy}
+
+\begin{abstract}
+Historically, some cultural artifacts were constructed to expose certain conceptual tensions --- between image and text, content and style, signal and noise, or the visual and sequential dimensions of language. Many of these same tensions are independently embedded in modern AI systems through what we term \emph{architectural commitments}: foundational design decisions embedded in model architectures, training objectives, and datasets that shape behavior but remain largely undeclared.
+
+This paper proposes a methodological framework that uses such artifacts as \emph{diagnostic probes} for making these commitments empirically visible. Rather than treating AI systems as transparent tools applied to cultural objects, we reverse the direction of inquiry: carefully selected artifacts are used as structured inputs that reveal how models organize meaning.
+
+We present the framework through five instantiations at progressively earlier stages of development: a completed experiment probing temporal bias in BERT-based masked language models; a completed experiment probing CLIP's joint embedding space; a structured proposal using Color Field abstraction to probe content/style separation in generative image architectures; a speculative extension to Russolo's noise music as a probe for audio generation models; and a gesture toward e.e.\ cummings as a probe for the tokenization assumption in language models. Our proposal is methodological, not evaluative: we aim to introduce a form of probe-based analysis accessible through standard model interfaces, and we argue that identifying effective probes requires forms of expertise rooted in artistic and humanistic practice.
+
+For artistic research and Human-Centred AI, this framework suggests a shift in how AI systems can be interrogated: not only through technical inspection or interface design, but through the deliberate construction and deployment of culturally and historically informed inputs.
+\end{abstract}
+
+\begin{keywords}
+  AI evaluation \sep
+  architectural commitments \sep
+  cultural artifacts \sep
+  diagnostic probes \sep
+  Human-Centred AI \sep
+  artistic research
+\end{keywords}
+
+\maketitle
+
+\section{Introduction}
+
+The dominant direction of inquiry in AI-supported artistic research runs from systems to artifacts. AI models retrieve, classify, generate, and transform cultural objects, while researchers engage with these systems through interfaces designed to expose provenance, steer outputs, or negotiate authorship. This direction implicitly treats AI systems as sufficiently transparent to function as instruments, and cultural artifacts as the primary objects of interpretation.
+
+This paper proposes reversing that orientation. Rather than asking what AI systems can do with cultural artifacts, we ask what certain artifacts can reveal about AI systems.
+
+We introduce the concept of \emph{architectural commitments}: foundational design decisions --- embedded in model architectures, training objectives, and datasets --- that shape how systems represent and relate meaning. These decisions are made by model creators --- \emph{e.g.}, designers, engineers, as well as institutional actors who commission and release these systems. Crucially, these choices are not the product of explicit deliberation: instead, they accumulate through habits of practice, resource constraints, and inherited conventions of the machine learning field.
+
+These commitments become visible not through standard usage, but when systems encounter inputs that do not align with them. For example: the choice of training data determines whose visual culture, whose aesthetic norms, whose linguistic registers become the model's implicit reference world --- and, by exclusion, whose do not. The optimization objective --- what the model is rewarded for approximating --- introduces an evaluative criterion that persists into model predictions. The architectural choices, from attention mechanisms to tokenization schemes, carve the space of what the model can represent or distinguish.
+
+These layers do not operate independently. Together they produce a behavioural consistency that users come to perceive and rely on as model affordances --- making AI tools feel reliable enough to work with, and familiar enough to mistake for neutral. Users encountering a generative model over time begin to develop a working sense of its dispositions: what it renders readily, what it resists, what territory it gravitates toward. This felt consistency can be seen as the lived experience of the architectural commitments described above. HCI research has long theorised affordances as the perceived action possibilities offered by an artefact, but model affordances introduce a complication: they emerge from a system whose inner logic is largely opaque, making them harder to interrogate, contest, or redesign through normal participatory or speculative design means.
+
+We argue that artistic inquiry provides the means to make architectural commitments visible. A subset of cultural artifacts is particularly suited to function as such inputs. These artifacts were historically constructed to expose tensions in representation --- between image and text, content and style, tonal and noise-based conceptions of sound, or the spatial and sequential dimensions of written language. When used as inputs to AI systems, they do not simply produce unusual outputs; they act as \emph{diagnostic probes}, making otherwise implicit commitments observable.
+
+Our claim is methodological, not evaluative. We are not arguing that the systems discussed are deficient. We are arguing that their responses to these inputs render visible specific architectural commitments that are otherwise difficult to inspect, and that identifying which cultural artifacts have the structural properties to do this requires domain knowledge that humanistic practice provides. Cultural artifacts are not only objects to be processed by AI systems --- they can also function as instruments for interrogating them.
+
+\section{Architectural Commitments}
+
+We define \emph{architectural commitments} as foundational design decisions --- in training objectives, model architecture, or dataset composition --- that shape model behavior in ways users perceive as consistent affordances but that are not declared as theoretical positions. The concept is related to, but distinct from, three adjacent notions.
+
+It is not the same as \emph{bias} in the fairness literature, which denotes deviation from a normative standard and is oriented toward mitigation. An architectural commitment need not be normatively problematic: CLIP's assumption that images and texts can be projected into a common representational space is not a bias --- it is the theoretical bet that makes the model possible.
+
+It is not reducible to \emph{training distribution effects}, though the two interact. That English-language formulations outperform French ones in a model trained predominantly on English data is a distribution effect; that this distribution effect manifests a deeper decision to treat image-text correspondence as the canonical relationship is an architectural commitment. The distinction matters because probes are targeted at the commitment, and distribution effects are indicators of it.
+
+It is not an \emph{evaluation artifact}: a consequence of how a benchmark was constructed rather than of how a model was designed. Careful probe design, including ablation studies that isolate the variable of interest, is required to distinguish the two.
+
+With this definition, the framework's claim becomes precise: certain cultural artifacts, by virtue of how they were historically constructed, function as probes that make specific architectural commitments empirically visible.
+
+\section{Five Instantiations}
+
+The cases below are ordered by maturity of development. Two are completed experiments; one is a structured proposal; one is speculative; one is a gesture. This gradient is itself part of the argument: the framework is presented as a generator of research questions, not a post-hoc description of completed work.
+
+These five cases are not proposed as a canonical or exhaustive set. They reflect the authors' particular disciplinary backgrounds --- in philosophy of language, surrealist painting, futurist music, and early modern English literature --- and are intended as illustrations of the probe logic rather than as a complete typology. A musicologist, a specialist in non-Western artistic traditions, or a researcher working in architecture, dance, or film would find different and possibly better-fitting probes for each of the commitments identified here, and would likely identify commitments we have not considered. The archive is potentially very large. The goal of this section is to demonstrate that the framework generates research questions across diverse domains, not to close the list.
+
+\subsection{BERT and Early Modern English}
+
+The first instantiation is a completed experiment \cite{Cuscito2024}. The commitment under investigation is temporal-linguistic: masked language models trained on contemporary text absorb a particular synchronic slice of language as their default, rendering historically marked language systematically anomalous --- not because the model fails, but because it succeeds at what it was designed to do.
+
+The probe is a set of 60 fill-in-the-blank sentences spanning Early Modern English (EME) and Modern English (ME). Three models were tested --- BERT-Base-Uncased, MacBERTh, and Bert British Library Books English --- against sentences classified as EME-specific, ME-specific, and temporally neutral. Two metrics operationalize the commitment: \emph{bias} ($\beta$), a probability-weighted temporal valence score, and \emph{domain adequacy} ($\delta$), measuring how closely $\beta$ tracks the sentence's expected register. MacBERTh aligns most strongly with EME; BERT-Base with ME. The probe works because Early Modern English literary texts were constructed under a different linguistic regime --- one that contemporary-trained models treat as anomalous. The diagnostic instrument is the mismatch itself, rendered measurable.
+
+\subsection{Magritte and CLIP}
+
+The second instantiation is also a completed experiment \cite{SassoliRuskov2025}. CLIP \cite{Radford2021} embeds two commitments: \emph{visual-linguistic commensurability} (that image and text meaning can be projected into a common format) and \emph{descriptive correspondence as the canonical relationship} (that texts describe images; other relationships have no dedicated mechanism). Magritte's \emph{La Trahison des Images} (1929) was selected because its philosophical content maps directly onto both: its meaning is constituted by the gap between image and text rather than their correspondence, and its caption is a metalinguistic comment on depiction rather than a description of a depicted object.
+
+Two results are diagnostic. The English title ``the treachery of images'' achieves the highest cosine similarity in the experiment (0.309); the French original ``la trahison des images'' scores 0.229. This asymmetry is consistent with the interpretation that alignment reflects training corpus distribution rather than semantic adequacy, though alternative explanations --- multilingual weakness, token frequency differences --- cannot be fully excluded without further controls. In Block~C, across eleven formulations of metalinguistic negation, prompts describing negation as content consistently outscore prompts characterizing it as a logical operation --- a pattern stable enough across diverse phrasings to suggest it is structural rather than artefactual. The cultural artifact does not break CLIP. It makes visible what CLIP assumed in order to work.
+
+\subsection{Rothko and Content/Style Separation}
+
+The third instantiation is a structured proposal. Neural style transfer \cite{Gatys2015} and StyleGAN both embed the commitment that any image can be decomposed into separable \emph{content} and \emph{style} dimensions --- content encoded in deep layer activations, style in gram matrices of earlier layers, with the decomposition assumed universal.
+
+Rothko's Color Field paintings are structurally suited to probe this commitment because they resist the decomposition by definition: the work's meaning is constituted by the color relationships themselves, not by a spatial structure rendered in a particular style. When used as a style source, a Rothko yields color statistics that discard what is specific to the work; when used as a content image, there is minimal spatial structure to preserve. The system continues to operate, but the outputs make visible what the content/style separation assumed. The experimental design would require principled probe selection across Color Field works and a comparative design distinguishing commitment-specific effects from implementation artifacts.
+
+\subsection{Russolo and the Pitch-Based Ontology of Sound}
+
+The fourth instantiation is speculative. Audio generation models embed an undeclared commitment: that sound is organized along dimensions derived from Western tonal music --- pitch, timbre, rhythm, harmonic structure. This commitment is instantiated in training data curation and in the feature representations these systems learn to privilege. It becomes visible when confronted with sound practices constructed to refuse it.
+
+Luigi Russolo's \emph{L'Arte dei Rumori} (1913) \cite{Russolo1913} is such a construction. The futurist noise manifesto argues explicitly that the tonal ontology is historically contingent and aesthetically limiting, and the \emph{intonarumori} were built to enact that argument in sound. The structural fit between the probe and the commitment is clear; the experimental design remains open. Candidate approaches include querying audio generation models to produce music in the manner of the intonarumori and examining whether outputs default to conventional instrumentation, or testing whether audio classifiers assign noise recordings to musical or non-musical categories in ways that reflect the tonal commitment.
+
+\subsection{e.e.\ cummings and Tokenization}
+
+The fifth case is a gesture. Almost every language model shares a commitment so foundational it is rarely recognized as one: that text is a sequence of tokens and that linguistic meaning is carried at that level, independent of the visual and spatial properties of written language. e.e.\ cummings's poetry was constructed to make exactly that dimension constitutive of meaning --- the typographic fragmentation, spatial distribution, and unconventional capitalization are not stylistic decoration but the mechanism by which meaning is produced. A model that tokenizes ``l(a'' as a character sequence has already destroyed the relevant information before semantic processing begins.
+
+We do not yet know what the probe experiment looks like here, nor whether the relevant target is tokenization specifically or the broader assumption that written language is a transcription of speech. What the framework suggests is that cummings --- and the wider tradition of concrete and visual poetry --- constitutes a probe class for a commitment that is ubiquitous, consequential, and almost entirely uninvestigated from this direction. That is sufficient reason to name it.
+
+\section{Implications}
+
+Four implications follow for Human-Centred AI in artistic research contexts.
+
+\paragraph{Probe design as a form of AI evaluation.}
+The structured probe experiment is a calibrated input to an AI system, designed to surface specific properties rather than to produce a useful output. Unlike interpretability methods requiring access to model internals, it operates entirely through input design and is available to any researcher with access to the model's standard interface. This makes it a form of critical evaluation practice that does not require ML expertise to initiate, though it requires methodological care to interpret.
+
+\paragraph{Humanistic competence and probe identification.}
+Identifying cultural artifacts suited to function as probes requires knowing which were historically constructed around specific representational tensions, how they have been theorized, and what philosophical questions they engage. That expertise typically sits in humanistic disciplines. We are not claiming that humanities scholars outperform ML engineers at probe design --- that remains to be investigated. We are claiming that the design space of AI evaluation could be expanded by drawing on that expertise, and that this is a hypothesis worth pursuing empirically.
+
+\paragraph{An unmapped archive.}
+The history of art, literature, and music contains cultural artifacts distributed across periods and movements that were deliberately constructed around the category tensions AI architectures flatten. The five cases here --- spanning masked language models, multimodal embedding spaces, generative image architectures, audio generation systems, and tokenization --- suggest that archive is both broad and largely unmobilized as an evaluation resource. Mapping it is a collaborative task for AI researchers and humanities scholars.
+
+\paragraph{Training data contamination and the creation of new probes.}
+Probes drawn from the canonical archive face a structural confound: the most philosophically well-suited artifacts --- Magritte, cummings, Russolo --- are also among the most widely reproduced and discussed, and are therefore likely to be saturated in the training corpora of the models under investigation. This means that a model's response to such a probe may reflect memorized associations as much as the architectural commitment being targeted. One direction this opens is the deliberate creation of new cultural artifacts --- new visual works, new poetry, new musical compositions --- designed to embody specific category tensions and produced outside existing training distributions. We are not proposing that artists be commissioned to make evaluation instruments. We are observing that artists already working with category tensions --- with image/text gaps, with the visual dimension of language, with noise as musical material --- are engaged in a practice that is directly relevant to AI evaluation, without being aware of that relevance. Making that connection visible, and developing it as a collaborative research program involving artists, humanities scholars, computer scientists, and statisticians, is a direction this framework opens and that we believe is worth pursuing.
+
+\section{Conclusion}
+
+We have proposed a framework for using cultural artifacts as targeted probes for AI architectural commitments, demonstrated it through two completed experiments, extended it through three proposals at progressively earlier stages of development, and drawn implications for Human-Centred AI in artistic research. The framework's core observation is historical: certain cultural artifacts were constructed to destabilize the same representational assumptions that AI architectures embed. That coincidence is the basis of their diagnostic value --- and exploiting it systematically requires exactly the kind of domain knowledge that humanistic practice provides.
+
+\section*{Declaration on Generative AI}
+During the preparation of this work, the author(s) used Claude (Anthropic) in order to: assist with drafting and revision of text. After using this tool, the author(s) reviewed and edited the content as needed and take(s) full responsibility for the publication's content.
+
+\bibliography{references}
+
+\end{document}
